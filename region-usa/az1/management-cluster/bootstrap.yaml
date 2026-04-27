@@ -1,0 +1,26 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: gitops-usa-az1
+  namespace: kommander
+spec:
+  interval: 1h
+  url: https://github.com/automacaoClear/lab-tjce-test.git
+  ref:
+    branch: main
+
+--- 
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: clusterops-usa-az1
+  namespace: kommander
+spec:
+  interval: 5m
+  path: ./region-usa/az1/management-cluster
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-usa-az1
+    namespace: kommander
